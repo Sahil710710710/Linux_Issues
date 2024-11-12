@@ -80,8 +80,8 @@ xx  IN PTR rhelclient.local.
 8xx0  IN PTR mail.dnstest.local. (put if required)
 
 ### Step 4: Change the permission of above files.
-chown :named /var/named/dnstest.local.forward
-chown :named /var/named/dnstest.local.backward
+chown named:named /var/named/dnstest.local.forward
+chown named:named /var/named/dnstest.local.backward
 
 ### Step 5: Check for wrong entries.
 Ensure that the entries on all files are correct.
