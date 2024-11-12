@@ -1,4 +1,4 @@
-# Common Issues and Solutions on Red Hat Servers
+## Common Issues and Solutions on Red Hat Servers
 
 ## Issue 1: Migration of CentOS 7 to RHEL 7
 **Description:** Encountered a repository error during the migration from CentOS 7 to RHEL 7.
@@ -9,5 +9,9 @@
 
 ---
 
-Please Refer index.md file for more errors and resolution.
+## Please Refer index.md file for more errors and resolution.
+
+
+
+
 
