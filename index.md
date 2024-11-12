@@ -5,7 +5,7 @@
 
 **Solution:** Configured the correct RHEL repository to proceed with the update.
 
-**Note:** Direct migration from CentOS to RHEL does not support certain packages, which need to be removed beforehand to avoid conflicts.
+**Note:** Direct migration from CentOS to RHEL does not support certain packages, which need to be removed beforehand to avoid conflicts..
 
 ---
 
