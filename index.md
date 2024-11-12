@@ -3,7 +3,7 @@
 ## Issue 1: Migration of CentOS 7 to RHEL 7
 **Description:** Encountered a repository error during the migration from CentOS 7 to RHEL 7.
 
-**Solution:** Configured the correct RHEL repository to proceed with the update.
+**Solution:** Configured the correct RHEL repository and package compatability to proceed with the update.
 
 **Note:** Direct migration from CentOS to RHEL does not support certain packages, which need to be removed beforehand to avoid conflicts..
 
@@ -12,14 +12,14 @@
 ## Issue 2: Data Corruption in Simultaneous Access to ext4 on iSCSI Shared Storage
 **Description:** Faced data corruption issues when files in an ext4-partitioned iSCSI shared storage were accessed simultaneously by multiple servers.
 
-**Solution:** The ext4 filesystem is not designed for simultaneous access across multiple servers, as it can lead to data corruption. To allow safe simultaneous access, configure the servers in a cluster and use a clustered filesystem (such as GFS2 or OCFS2), which supports concurrent access in a shared storage environment.
+**Solution:** The ext4 filesystem is not designed for simultaneous access across multiple servers, as it can lead to data corruption. To allow safe simultaneous access, configure the servers in a cluster and use a clustered filesystem (such as GFS2 or BTRFS), which supports concurrent access in a shared storage environment.
 
 ---
 
 ## Issue 3: SELinux Permissions Blocking Access
 **Description:** SELinux blocks certain services or applications from accessing files or ports, resulting in "permission denied" errors even when file permissions are correct.
 
-**Solution:** Use `audit2why` and `audit2allow` tools to diagnose and generate policies to allow the necessary access. Alternatively, temporarily disable SELinux (`setenforce 0`) to troubleshoot, but re-enable (`setenforce 1`) and apply appropriate policies for a secure environment.
+**Solution:** Temporarily disable SELinux (`setenforce 0`) to troubleshoot, but re-enable (`setenforce 1`) and apply appropriate policies for a secure environment.
 
 ---
 
@@ -31,7 +31,7 @@
 ---
 
 ## Issue 5: Time Synchronization Issues
-**Description:** System time drifts or does not stay synchronized with network time protocol (NTP) servers, potentially causing issues with applications relying on accurate timestamps.
+**Description:** System time does not stay synchronized with network time protocol (NTP) servers, potentially causing issues with applications relying on accurate timestamps.
 
 **Solution:** Ensure that `chronyd` or `ntpd` services are installed and running. Check the configuration in `/etc/chrony.conf` (for `chronyd`) or `/etc/ntp.conf` (for `ntpd`) to confirm valid NTP servers are specified. Use `timedatectl` to verify the system clock status.
 
@@ -47,7 +47,7 @@
 ## Issue 7: Network Connectivity Problems
 **Description:** The server experiences intermittent or complete loss of network connectivity, which impacts access to resources, repositories, and other services.
 
-**Solution:** Use commands like `ping`, `ip a`, and `nmcli` to troubleshoot connectivity and network interface configurations. Verify that the correct IP, gateway, and DNS are set in `/etc/sysconfig/network-scripts/`. If using firewalls, ensure that essential ports are open. Restart the network service with `systemctl restart network` (on RHEL 7 and earlier) or `nmcli networking off && nmcli networking on` (on RHEL 8 and later) to reinitialize connections.
+**Solution:** Use commands like `ping`, `ip a`, and `nmcli` to troubleshoot connectivity and network interface configurations. Verify that the correct IP, gateway, and DNS are set in `/etc/sysconfig/network-scripts/`. If using firewalls, ensure that essential ports are open. Restart the network service with `systemctl restart NetworkManager` (on RHEL 8 and above) or `nmcli n off && nmcli n on` (on RHEL 8 and later) to reinitialize connections.
 
 ---
 
@@ -64,3 +64,8 @@
 **Solution:** Verify ownership and permissions using `ls -l` on the problematic files and directories. Adjust permissions with `chmod` and ownership with `chown` as needed. For example, to grant read and write permissions to the owner and group, use `chmod 770 /path/to/file`. For web applications, ensure that files are accessible by the `apache` or `nginx` user, depending on the server.
 
 ---
+## Issue 10: `createrepo` was Not Working on RHEL 9
+**Description:** Encountered an issue where `createrepo` was not functioning correctly on RHEL 9, preventing the creation of a local repository for offline package installations.
+
+**Solution:** Mounted the ISO to another directory and created a local repository from it. This allowed the installation of packages without internet access.
+
